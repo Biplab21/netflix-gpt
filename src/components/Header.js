@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { auth } from '../utils/firebase';
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addUser, removeUser } from '../utils/userSlice';
+import { LOGO } from '../utils/constants';
 
 const Header = () => {
 
   const user = useSelector(store => store.user)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user)
+      {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(addUser({ uid, email, displayName, photoURL }))
+        navigate("/browse")
+      } else
+      {
+        dispatch(removeUser())
+        navigate("/")
+        // User is signed out
+      }
+    });
+
+    // Unsubscribe when component unmount
+    return () => unsubscribe()
+  }, [])
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
-      navigate("/")
     }).catch((error) => {
       navigate("/error")
     });
@@ -21,7 +44,7 @@ const Header = () => {
     <div className='absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between'>
       <img
         className='w-44'
-        src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
+        src={LOGO}
         alt="netflix logo" />
       { user && <div className='flex'>
         <img
@@ -30,7 +53,7 @@ const Header = () => {
           alt="user icon"
         />
         <button className='p-2 m-2 font-bold text-white' onClick={ handleSignOut }>Sign Out</button>
-      </div>}
+      </div> }
     </div>
   )
 }
