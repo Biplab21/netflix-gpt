@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { API_OPTIONS } from '../../utils/constants'
+import { API_OPTIONS } from '../constants'
 import { useDispatch } from "react-redux"
-import { addNowPlayingMovies } from "../../utils/movieSlice"
+import { addNowPlayingMovies } from "../movieSlice"
 
 const useNowPlayingMovies = () => {
     const dispatch = useDispatch()

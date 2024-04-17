@@ -25,7 +25,14 @@
     - Fetch Data for trailer video
     - Update store with trailer video data
     - Embedded the youtube video make it autoplay and mute.
-    - 
+    - Build Secondary Component
+    - Build Movie Card
+    - TMDB Image CDN URL
+    - usePopularMovies Custom Hook
+    - GPT Search Page
+    - GPT search Bar
+    - Added multi language feature
+    - Integrate GPT APIs
 
 # Features
 - Login/Sign up
