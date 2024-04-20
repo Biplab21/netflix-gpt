@@ -33,6 +33,8 @@
     - GPT search Bar
     - Added multi language feature
     - Integrate GPT APIs
+    - Memoization
+    - Added .env files
 
 # Features
 - Login/Sign up
